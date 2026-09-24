@@ -1,0 +1,6 @@
+{% macro badge(severity) %}<span class="severity severity-{{ severity|lower }}">{{ severity }}</span>{% endmacro %}
+{% macro csrf() %}<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{% endmacro %}
+{% macro consent() %}<label class="consent"><input class="form-check-input" type="checkbox" name="authorized" required> <span>{{ authorization_text }}</span></label>{% endmacro %}
+{% macro source(network) %}<span class="source-label {{ 'demo' if network.demo else 'live' }}">{{ 'DEMO' if network.demo else 'LIVE' }}</span>{% endmacro %}
+{% macro empty(title, text='New results will appear here after an authorized assessment.') %}<div class="empty-state"><span>◎</span><h3>{{ title }}</h3><p>{{ text }}</p></div>{% endmacro %}
+{% macro pages(pagination) %}{% if pagination.pages > 1 %}<nav class="pagination-bar" aria-label="Pagination"><span>{{ pagination.total }} results · Page {{ pagination.page }} of {{ pagination.pages }}</span><div>{% if pagination.has_prev %}<a class="btn btn-sm btn-light pagination-link" data-page="{{ pagination.prev_num }}" href="?page={{ pagination.prev_num }}">Previous</a>{% endif %}{% if pagination.has_next %}<a class="btn btn-sm btn-light pagination-link" data-page="{{ pagination.next_num }}" href="?page={{ pagination.next_num }}">Next</a>{% endif %}</div></nav>{% endif %}{% endmacro %}

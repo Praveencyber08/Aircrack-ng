@@ -24,8 +24,14 @@ def sqlite_constraints(connection, record):
 
 
 def create_app(test_config=None):
-    app = Flask(__name__, instance_relative_config=True)
+    from app.cloud import cloud_config, initialize_cloud_demo
+
+    cloud = cloud_config() if test_config is None else None
+    instance_options = {"instance_path": str(cloud[0])} if cloud else {}
+    app = Flask(__name__, instance_relative_config=True, **instance_options)
     app.config.from_object(Config)
+    if cloud:
+        app.config.update(cloud[1])
     if test_config:
         app.config.update(test_config)
     Path(app.instance_path).mkdir(parents=True, exist_ok=True)
@@ -166,4 +172,6 @@ def create_app(test_config=None):
         db.session.commit()
         click.echo("Administrator created. Sign in and run an authorized demo discovery.")
 
+    if cloud:
+        initialize_cloud_demo(app)
     return app

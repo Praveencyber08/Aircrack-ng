@@ -12,3 +12,4 @@ tmp/
 *.cap
 *.pcap
 *.pcapng
+public/static/
